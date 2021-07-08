@@ -46,17 +46,21 @@ password.place(x=60, y=120)
 user_name = StringVar()
 password = StringVar()
 
-userentry = Entry(window, width=35, textvariable=user_name)
-userentry.focus()
-userentry.place(x=190, y=60)
+entry_uname = Entry(window, width=35, textvariable=user_name)
+entry_uname.focus()
+entry_uname.place(x=190, y=60)
 
-passentry = Entry(window, width=35, show="*", textvariable=password)
-passentry.place(x=190, y=120)
+entry_pass = Entry(window, width=35, show="*", textvariable=password)
+entry_pass.place(x=190, y=120)
+
+
+
+# DEFINING BUTTONS
 
 
 def clear():
-	userentry.delete(0, END)
-	passentry.delete(0, END)
+	entry_uname.delete(0, END)
+	entry_pass.delete(0, END)
 
 
 def close():
@@ -65,20 +69,20 @@ def close():
 
 def login():
 	if user_name.get() == "" or password.get() == "":
-		messagebox.showerror("Error", "Enter User Name And Password", parent=window)
+		messagebox.showerror("Fill in the spaces", "Please enter a username and password", parent=window)
 	else:
 		try:
-			con = pymysql.connect(host="localhost", user="root", password="", database="docterapp")
+			con = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LifeChoice_data")
 			cur = con.cursor()
 
-			cur.execute("select * from user_information where username=%s and password = %s", (user_name.get(), password.get()))
+			cur.execute("select * from user_information where name=%s and ID_No = %s", (user_name.get(), password.get()))
 			info = cur.fetchone()
 
 			if info == None:
 				messagebox.showerror("Error", "Invalid User Name And Password", parent=window)
 
 			else:
-				messagebox.showinfo("Success", "Successfully Login", parent=window)
+				messagebox.showinfo("Login Successful", "Enjoy your day", parent=window)
 				close()
 				# import new window here
 			con.close()
@@ -95,5 +99,11 @@ btn_login.place(x=190, y=180)
 
 btn_login = Button(window, text="Clear", bd=4, font='Arial 12 bold', command=clear, bg="Green", fg="White")
 btn_login.place(x=270, y=180)
+
+# EXIT BUTTON
+
+
+btn_login = Button(window, text="Close", bd=4, font='Arial 12 bold', command=close, bg="Red", fg="Black")
+btn_login.place(x=345, y=180)
 
 window.mainloop()
