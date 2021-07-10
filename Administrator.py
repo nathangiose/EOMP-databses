@@ -1,8 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
-import pymysql
-import doctest
+#import mysql.connector
+import mysql.connector
+# import doctest
 
 class ConnectorDB:
 
@@ -33,44 +34,48 @@ class ConnectorDB:
 
         # DECLARING VARIABLES
         StudentID = StringVar()
-        Name = StringVar()
-        Surname = StringVar()
+        name = StringVar()
+        surname = StringVar()
         IDnumber = StringVar()
-        Contact = StringVar()
-        NextOfKinName = StringVar()
-        NextOfKinContact = StringVar()
+        phoneNo = StringVar()
+        NextOfKinname = StringVar()
+        NextOfKinphoneNo = StringVar()
 
         # DEF VARIABLES
 
 
         def addData ():
-            if StudentID.get()== "" or Name.get()=="" or Surname.get()=="" or IDnumber.get()=="" or Contact.get()=="" or NextOfKinName.get()=="" or NextOfKinContact.get()=="":
+            if StudentID.get()== "" or name.get()=="" or surname.get()=="" or IDnumber.get()=="" or phoneNo.get()=="" or NextOfKinname.get()=="" or NextOfKinphoneNo.get()=="":
                 tkinter.messagebox.showerror("Administrator", "Please fill in all fields")
             else:
-                sqlCon = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LC")
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                                   database='LC',
+                                   auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("Insert into LC values(%s, %s, %s, %s, %s, %s, %s)",(
+                cur.execute("Insert into LC values(%s, %s, %s, %s, %s, %s, %s)", (
                 StudentID.get(),
-                Name.get(),
-                Surname.get(),
+                name.get(),
+                surname.get(),
                 IDnumber.get(),
-                Contact.get(),
-                NextOfKinName.get(),
-                NextOfKinContact.get(),
+                phoneNo.get(),
+                NextOfKinname.get(),
+                NextOfKinphoneNo.get(),
                 ))
                 sqlCon.commit()
                 sqlCon.close()
                 tkinter.messagebox.showinfo("Administrator", "Information Updated")
 
         def DisplayData():
-                sqlCon = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LC")
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                                   database='LC',
+                                   auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
                 cur.execute("select from LC")
                 result = cur.fetchall()
                 if len(result):
                     self.student_records.delete(*self.student_records.get_children())
                     for row in result:
-                        self.student_records.insert('', END, values = row)
+                        self.student_records.insert('', END, values=row)
                 sqlCon.commit()
                 sqlCon.close()
                 #tkinter.messagebox.showinfo("Administrator", "Information Updated")
@@ -80,24 +85,26 @@ class ConnectorDB:
             learnerData = self.student_records.item(viewInfo)
             row = learnerData['values']
             StudentID.set(row[0])
-            Name.set(row[1])
-            Surname.set(row[2])
+            name.set(row[1])
+            surname.set(row[2])
             IDnumber.set(row[3])
-            Contact.set(row[4])
-            NextOfKinName.set(row[5])
-            NextOfKinContact.set(row[6])
+            phoneNo.set(row[4])
+            NextOfKinname.set(row[5])
+            NextOfKinphoneNo.set(row[6])
 
         def update():
-            sqlCon = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LC")
+            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                                   database='LC',
+                                   auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
-            cur.execute("update LC set Name%s, Surname%s, ID number%s, Contact%s, NOK-name%s, NOK-contact%s, where stdntID%s)", (
+            cur.execute("update LC set name%s, surname%s, id_number%s, phoneNo%s, NOK-name%s, NOK-phoneNo%s, where ID%s)", (
                 StudentID.get(),
-                Name.get(),
-                Surname.get(),
+                name.get(),
+                surname.get(),
                 IDnumber.get(),
-                Contact.get(),
-                NextOfKinName.get(),
-                NextOfKinContact.get(),
+                phoneNo.get(),
+                NextOfKinname.get(),
+                NextOfKinphoneNo.get(),
             ))
             sqlCon.commit()
             DisplayData()
@@ -106,9 +113,11 @@ class ConnectorDB:
 
 
         def deleteDB():
-            sqlCon = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LC")
+            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                                   database='LC',
+                                   auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
-            cur.execute("Delete from LC where stdntID%s", StudentID.get())
+            cur.execute("Delete from LC where ID%s", StudentID.get())
 
             sqlCon.commit()
             DisplayData()
@@ -118,22 +127,24 @@ class ConnectorDB:
 
         def searchDB():
             try:
-                sqlCon = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LC")
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                                   database='LC',
+                                   auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("Select * from LC where stdntID%s", StudentID.get())
+                cur.execute("Select * from LC where ID%s", StudentID.get())
 
                 row = cur.fetchall()
 
                 StudentID.set(row[0])
-                Name.set(row[1])
-                Surname.set(row[2])
+                name.set(row[1])
+                surname.set(row[2])
                 IDnumber.set(row[3])
-                Contact.set(row[4])
-                NextOfKinName.set(row[5])
-                NextOfKinContact.set(row[6])
+                phoneNo.set(row[4])
+                NextOfKinname.set(row[5])
+                NextOfKinphoneNo.set(row[6])
 
                 sqlCon.commit()
-                # DisplayData()
+                DisplayData()
             except:
                 tkinter.messagebox.showinfo("Administrator", "Record not Found")
                 Reset()
@@ -142,12 +153,12 @@ class ConnectorDB:
 
         def Reset ():
             self.entstudentID.delete(0, END)
-            self.entName.delete(0, END)
-            self.entSurname.delete(0, END)
+            self.entname.delete(0, END)
+            self.entsurname.delete(0, END)
             self.entIDnumber.delete(0, END)
-            self.entcontact.delete(0, END)
+            self.entphoneNo.delete(0, END)
             self.entNOKname.delete(0, END)
-            self.entNOKcontact.delete(0, END)
+            self.entNOKphoneNo.delete(0, END)
 
 
         def iExit ():
@@ -170,61 +181,61 @@ class ConnectorDB:
         self.entstudentID = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=StudentID)
         self.entstudentID.grid(row=1, column=1, sticky=W, padx=5)
 
-        self.lblName = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="First Name", bd=7)
-        self.lblName.grid(row=2, column=0, sticky=W, padx=5)
-        self.entName = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=Name)
-        self.entName.grid(row=2, column=1, sticky=W, padx=5)
+        self.lblname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="First name", bd=7)
+        self.lblname.grid(row=2, column=0, sticky=W, padx=5)
+        self.entname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=name)
+        self.entname.grid(row=2, column=1, sticky=W, padx=5)
 
-        self.lblSurname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Surname", bd=7)
-        self.lblSurname.grid(row=3, column=0, sticky=W, padx=5)
-        self.entSurname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=Surname)
-        self.entSurname.grid(row=3, column=1, sticky=W, padx=5)
+        self.lblsurname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="surname", bd=7)
+        self.lblsurname.grid(row=3, column=0, sticky=W, padx=5)
+        self.entsurname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=surname)
+        self.entsurname.grid(row=3, column=1, sticky=W, padx=5)
 
         self.lblIDnumber = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="ID number", bd=7)
         self.lblIDnumber.grid(row=4, column=0, sticky=W, padx=5)
         self.entIDnumber = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=IDnumber)
         self.entIDnumber.grid(row=4, column=1, sticky=W, padx=5)
 
-        self.lblcontact = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Contact", bd=5)
-        self.lblcontact.grid(row=5, column=0, sticky=W, padx=5)
-        self.entcontact = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=Contact)
-        self.entcontact.grid(row=5, column=1, sticky=W, padx=5)
+        self.lblphoneNo = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="phone_number", bd=5)
+        self.lblphoneNo.grid(row=5, column=0, sticky=W, padx=5)
+        self.entphoneNo = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=phoneNo)
+        self.entphoneNo.grid(row=5, column=1, sticky=W, padx=5)
 
-        self.lblNOKname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- Name", bd=5)
+        self.lblNOKname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- name", bd=5)
         self.lblNOKname.grid(row=6, column=0, sticky=W, padx=5)
-        self.entNOKname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinName)
+        self.entNOKname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinname)
         self.entNOKname.grid(row=6, column=1, sticky=W, padx=5)
 
-        self.lblNOKcontact = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- Contact", bd=5)
-        self.lblNOKcontact.grid(row=7, column=0, sticky=W, padx=5)
-        self.entNOKcontact = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinContact)
-        self.entNOKcontact.grid(row=7, column=1, sticky=W, padx=5)
+        self.lblNOKphoneNo = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- phoneNo", bd=5)
+        self.lblNOKphoneNo.grid(row=7, column=0, sticky=W, padx=5)
+        self.entNOKphoneNo = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinphoneNo)
+        self.entNOKphoneNo.grid(row=7, column=1, sticky=W, padx=5)
 
         # TREE VIEW
 
 
         scroll_y = Scrollbar(LeftFrame, orient = VERTICAL)
-        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("stdntID", "Name", "Surname", "ID number", "Contact", "NOK-name", "NOK-contact"), yscrollcommand=scroll_y.set)
+        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("ID", "name", "surname", "id_number", "phone_number", "NOK-name", "NOK-phoneNo"), yscrollcommand=scroll_y.set)
         scroll_y.pack(side=RIGHT, fill=Y)
 
 
-        self.student_records.heading("stdntID", text="Student ID")
-        self.student_records.heading("Name", text="Name")
-        self.student_records.heading("Surname", text="Surname")
-        self.student_records.heading("ID number", text="ID number")
-        self.student_records.heading("Contact", text="Contact")
+        self.student_records.heading("ID", text="Student ID")
+        self.student_records.heading("name", text="name")
+        self.student_records.heading("surname", text="surname")
+        self.student_records.heading("id_number", text="ID Number")
+        self.student_records.heading("phone_number", text="phone_number")
         self.student_records.heading("NOK-name", text="NOK-name")
-        self.student_records.heading("NOK-contact", text="NOK-contact")
+        self.student_records.heading("NOK-phoneNo", text="NOK-phoneNo")
 
-        self.student_records['show'] = 'headings'
+        self.student_records['tv'] = 'headings'
 
-        self.student_records.column("stdntID", width=70)
-        self.student_records.column("Name", width=100)
-        self.student_records.column("Surname", width=100)
-        self.student_records.column("ID number", width=100)
-        self.student_records.column("Contact", width=70)
+        self.student_records.column("ID", width=70)
+        self.student_records.column("name", width=100)
+        self.student_records.column("surname", width=100)
+        self.student_records.column("id_number", width=100)
+        self.student_records.column("phone_number", width=70)
         self.student_records.column("NOK-name", width=100)
-        self.student_records.column("NOK-contact", width=70)
+        self.student_records.column("NOK-phoneNo", width=70)
         self.student_records.pack(fill=BOTH, expand=1)
 
         self.student_records.bind("<ButtonRelease-1>", TraineeInfo)

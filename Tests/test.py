@@ -216,7 +216,7 @@ class ConnectorDB:
         self.student_records.heading("NOK-name", text="NOK-name")
         self.student_records.heading("NOK-contact", text="NOK-contact")
 
-        self.student_records['show'] = 'headings'
+        self.student_records['tv'] = 'headings'
 
         self.student_records.column("stdntID", width=70)
         self.student_records.column("Name", width=100)
