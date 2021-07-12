@@ -48,7 +48,7 @@ class ConnectorDB:
             if StudentID.get()== "" or name.get()=="" or surname.get()=="" or IDnumber.get()=="" or phoneNo.get()=="" or NextOfKinname.get()=="" or NextOfKinphoneNo.get()=="":
                 tkinter.messagebox.showerror("Administrator", "Please fill in all fields")
             else:
-                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
@@ -66,7 +66,7 @@ class ConnectorDB:
                 tkinter.messagebox.showinfo("Administrator", "Information Updated")
 
         def DisplayData():
-                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
@@ -93,7 +93,7 @@ class ConnectorDB:
             NextOfKinphoneNo.set(row[6])
 
         def update():
-            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
@@ -113,7 +113,7 @@ class ConnectorDB:
 
 
         def deleteDB():
-            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+            sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
@@ -127,7 +127,7 @@ class ConnectorDB:
 
         def searchDB():
             try:
-                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='127.0.0.1',
+                sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
@@ -227,7 +227,7 @@ class ConnectorDB:
         self.student_records.heading("NOK-name", text="NOK-name")
         self.student_records.heading("NOK-phoneNo", text="NOK-phoneNo")
 
-        self.student_records['tv'] = 'headings'
+        #self.student_records['tv'] = 'headings'
 
         self.student_records.column("ID", width=70)
         self.student_records.column("name", width=100)
