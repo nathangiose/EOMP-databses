@@ -11,7 +11,7 @@ class ConnectorDB:
         self.master = master
         titlespace = " "
         self.master.title("Administrator")
-        self.master.geometry("964x671")
+        self.master.geometry("1000x700")
         self.master.resizable(width=False, height=False)
 
         MainFrame = Frame(self.master, bd=10, width=770, height=700, relief=RIDGE, bg="Black")
@@ -33,11 +33,11 @@ class ConnectorDB:
         RightFrame1.pack(side=TOP)
 
         # DECLARING VARIABLES
-        StudentID = StringVar()
+        ID = StringVar()
         name = StringVar()
         surname = StringVar()
-        IDnumber = StringVar()
-        phoneNo = StringVar()
+        id_number = StringVar()
+        phone_number = StringVar()
         NextOfKinname = StringVar()
         NextOfKinphoneNo = StringVar()
 
@@ -45,21 +45,19 @@ class ConnectorDB:
 
 
         def addData ():
-            if StudentID.get()== "" or name.get()=="" or surname.get()=="" or IDnumber.get()=="" or phoneNo.get()=="" or NextOfKinname.get()=="" or NextOfKinphoneNo.get()=="":
+            if ID.get() == "" or name.get() == "" or surname.get() == "" or id_number.get() == "" or phone_number.get() == "":
                 tkinter.messagebox.showerror("Administrator", "Please fill in all fields")
             else:
                 sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost',
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("Insert into LC values(%s, %s, %s, %s, %s, %s, %s)", (
-                StudentID.get(),
+                cur.execute("Insert into register values('ID', 'name', 'surname', 'id_number', 'phone_number', 'password')", (
+                ID.get(),
                 name.get(),
                 surname.get(),
-                IDnumber.get(),
-                phoneNo.get(),
-                NextOfKinname.get(),
-                NextOfKinphoneNo.get(),
+                id_number.get(),
+                phone_number.get(),
                 ))
                 sqlCon.commit()
                 sqlCon.close()
@@ -70,7 +68,7 @@ class ConnectorDB:
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("select from LC")
+                cur.execute("select from register")
                 result = cur.fetchall()
                 if len(result):
                     self.student_records.delete(*self.student_records.get_children())
@@ -84,11 +82,11 @@ class ConnectorDB:
             viewInfo=self.student_records.focus()
             learnerData = self.student_records.item(viewInfo)
             row = learnerData['values']
-            StudentID.set(row[0])
+            ID.set(row[0])
             name.set(row[1])
             surname.set(row[2])
-            IDnumber.set(row[3])
-            phoneNo.set(row[4])
+            id_number.set(row[3])
+            phone_number.set(row[4])
             NextOfKinname.set(row[5])
             NextOfKinphoneNo.set(row[6])
 
@@ -97,12 +95,12 @@ class ConnectorDB:
                                    database='LC',
                                    auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
-            cur.execute("update LC set name%s, surname%s, id_number%s, phoneNo%s, NOK-name%s, NOK-phoneNo%s, where ID%s)", (
-                StudentID.get(),
+            cur.execute("update register set name%s, surname%s, id_number%s, phone_number%s, NOK-name%s, NOK-phone_number%s, where ID%s)", (
+                ID.get(),
                 name.get(),
                 surname.get(),
-                IDnumber.get(),
-                phoneNo.get(),
+                id_number.get(),
+                phone_number.get(),
                 NextOfKinname.get(),
                 NextOfKinphoneNo.get(),
             ))
@@ -117,7 +115,7 @@ class ConnectorDB:
                                    database='LC',
                                    auth_plugin='mysql_native_password')
             cur = sqlCon.cursor()
-            cur.execute("Delete from LC where ID%s", StudentID.get())
+            cur.execute("Delete from register where ID%s", ID.get())
 
             sqlCon.commit()
             DisplayData()
@@ -131,15 +129,15 @@ class ConnectorDB:
                                    database='LC',
                                    auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("Select * from LC where ID%s", StudentID.get())
+                cur.execute("Select * from LC where ID%s", ID.get())
 
                 row = cur.fetchall()
 
-                StudentID.set(row[0])
+                ID.set(row[0])
                 name.set(row[1])
                 surname.set(row[2])
-                IDnumber.set(row[3])
-                phoneNo.set(row[4])
+                id_number.set(row[3])
+                phone_number.set(row[4])
                 NextOfKinname.set(row[5])
                 NextOfKinphoneNo.set(row[6])
 
@@ -173,12 +171,12 @@ class ConnectorDB:
         # WIDGETS
 
 
-        self.lbltitle = Label (TitleFrame, font=('Arial', 40, 'bold'), text="Administrator", bd=7)
+        self.lbltitle = Label (TitleFrame, font=('Arial', 40, 'bold'), text="Administrator", bd=7, bg="Green")
         self.lbltitle.grid(row=0, column=0, padx=132)
 
         self.lblstudentID = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Student ID", bd=7)
         self.lblstudentID.grid(row=1, column=0, sticky=W, padx=5)
-        self.entstudentID = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=StudentID)
+        self.entstudentID = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=ID)
         self.entstudentID.grid(row=1, column=1, sticky=W, padx=5)
 
         self.lblname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="First name", bd=7)
@@ -193,12 +191,12 @@ class ConnectorDB:
 
         self.lblIDnumber = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="ID number", bd=7)
         self.lblIDnumber.grid(row=4, column=0, sticky=W, padx=5)
-        self.entIDnumber = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=IDnumber)
+        self.entIDnumber = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=id_number)
         self.entIDnumber.grid(row=4, column=1, sticky=W, padx=5)
 
         self.lblphoneNo = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="phone_number", bd=5)
         self.lblphoneNo.grid(row=5, column=0, sticky=W, padx=5)
-        self.entphoneNo = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=phoneNo)
+        self.entphoneNo = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', textvariable=phone_number)
         self.entphoneNo.grid(row=5, column=1, sticky=W, padx=5)
 
         self.lblNOKname = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- name", bd=5)
@@ -206,7 +204,7 @@ class ConnectorDB:
         self.entNOKname = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinname)
         self.entNOKname.grid(row=6, column=1, sticky=W, padx=5)
 
-        self.lblNOKphoneNo = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- phoneNo", bd=5)
+        self.lblNOKphoneNo = Label(LeftFrame1, font=('Arial', 14, 'bold'), text="Next of Kin- phone_number", bd=5)
         self.lblNOKphoneNo.grid(row=7, column=0, sticky=W, padx=5)
         self.entNOKphoneNo = Entry(LeftFrame1, font=('Arial', 14, 'bold'), bd=5, width=44, justify='left', bg="Green", textvariable=NextOfKinphoneNo)
         self.entNOKphoneNo.grid(row=7, column=1, sticky=W, padx=5)
@@ -215,7 +213,7 @@ class ConnectorDB:
 
 
         scroll_y = Scrollbar(LeftFrame, orient = VERTICAL)
-        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("ID", "name", "surname", "id_number", "phone_number", "NOK-name", "NOK-phoneNo"), yscrollcommand=scroll_y.set)
+        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("ID", "name", "surname", "id_number", "phone_number", "NOK-name", "NOK-phone_number"), yscrollcommand=scroll_y.set)
         scroll_y.pack(side=RIGHT, fill=Y)
 
 
@@ -225,7 +223,7 @@ class ConnectorDB:
         self.student_records.heading("id_number", text="ID Number")
         self.student_records.heading("phone_number", text="phone_number")
         self.student_records.heading("NOK-name", text="NOK-name")
-        self.student_records.heading("NOK-phoneNo", text="NOK-phoneNo")
+        self.student_records.heading("NOK-phone_number", text="NOK-phone_number")
 
         #self.student_records['tv'] = 'headings'
 
@@ -235,7 +233,7 @@ class ConnectorDB:
         self.student_records.column("id_number", width=100)
         self.student_records.column("phone_number", width=70)
         self.student_records.column("NOK-name", width=100)
-        self.student_records.column("NOK-phoneNo", width=70)
+        self.student_records.column("NOK-phone_number", width=70)
         self.student_records.pack(fill=BOTH, expand=1)
 
         self.student_records.bind("<ButtonRelease-1>", TraineeInfo)

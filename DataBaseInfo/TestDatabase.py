@@ -7,7 +7,7 @@ import mysql.connector
 # Open Database Connetion
 
 
-mydb = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC_online', auth_plugin='mysql_native_password')
+mydb = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
 cursor = mydb.cursor()
 
 '''mydb = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
