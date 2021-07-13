@@ -120,7 +120,7 @@ class DataBaseConnection:
             try:
                 sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("select * from USERS where stdid='%s'"%StudentID.get())
+                cur.execute("select * from USERS where stdid='%s'" % StudentID.get())
 
                 row = cur.fetchone()
 

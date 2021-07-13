@@ -72,10 +72,10 @@ def login():
 		messagebox.showerror("Fill in the spaces", "Please enter a username and password", parent=window)
 	else:
 		try:
-			con = pymysql.connect(host="localhost", user="nathan", password="8-2fermENt2020", database="LifeChoice_data")
+			con = pymysql.connect(host="localhost", user="NATHAN", password="8-2fermENt2020", database="LC")
 			cur = con.cursor()
 
-			cur.execute("select * from user_information where name=%s and ID_No = %s", (user_name.get(), password.get()))
+			cur.execute("select * from USERS where stdid=%s and password=%s", (user_name.get(), password.get()))
 			info = cur.fetchone()
 
 			if info == None:
