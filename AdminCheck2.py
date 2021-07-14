@@ -90,7 +90,7 @@ class DataBaseConnection:
         def update():
             sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
             cur =sqlCon.cursor()
-            cur.execute("update USERS set name=%s,surname=%s,password=%s,role=%s,phone=%s where stdid=%s",(
+            cur.execute("update USERS set name=%s,surname=%s,password=%s,role=%s,phone=%s where ID=%s",(
 
             Firstname.get(),
             Surname.get(),
@@ -107,7 +107,7 @@ class DataBaseConnection:
         def deleteDB():
             sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
             cur =sqlCon.cursor()
-            cur.execute("delete from USERS where stdid=%s",StudentID.get())
+            cur.execute("delete from USERS where ID=%s",StudentID.get())
 
             sqlCon.commit()
             DisplayData()
@@ -120,7 +120,7 @@ class DataBaseConnection:
             try:
                 sqlCon = mysql.connector.connect(user='NATHAN', password='8-2fermENt2020', host='localhost', database='LC', auth_plugin='mysql_native_password')
                 cur = sqlCon.cursor()
-                cur.execute("select * from USERS where stdid='%s'" % StudentID.get())
+                cur.execute("select * from USERS where ID='%s'"%StudentID.get())
 
                 row = cur.fetchone()
 
@@ -196,13 +196,13 @@ class DataBaseConnection:
         scroll_x = Scrollbar(LeftFrame, orient=HORIZONTAL)
         scroll_y = Scrollbar(LeftFrame, orient=VERTICAL)
 
-        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("stdid", "firstname", "surname", "phone",
+        self.student_records = ttk.Treeview(LeftFrame, height=12, columns=("ID", "firstname", "surname", "phone",
         "role", "password"), xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
 
         scroll_x.pack(side=BOTTOM, fill=X)
         scroll_y.pack(side=RIGHT, fill=Y)
 
-        self.student_records.heading("stdid", text="StudentID.")
+        self.student_records.heading("ID", text="StudentID.")
         self.student_records.heading("firstname", text="Firstname")
         self.student_records.heading("surname", text="Surname")
         self.student_records.heading("password", text="Password")
@@ -211,7 +211,7 @@ class DataBaseConnection:
 
         self.student_records['show'] = 'headings'
 
-        self.student_records.column("stdid", width=70)
+        self.student_records.column("ID", width=70)
         self.student_records.column("firstname", width=100)
         self.student_records.column("surname", width=100)
         self.student_records.column("password", width=100)
