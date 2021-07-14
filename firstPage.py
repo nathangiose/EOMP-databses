@@ -75,7 +75,7 @@ def login():
 			con = pymysql.connect(host="localhost", user="NATHAN", password="8-2fermENt2020", database="LC")
 			cur = con.cursor()
 
-			cur.execute("select * from USERS where stdid=%s and password=%s", (user_name.get(), password.get()))
+			cur.execute("select * from USERS where ID=%s and password=%s", (user_name.get(), password.get()))
 			info = cur.fetchone()
 
 			if info == None:
