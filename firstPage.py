@@ -57,6 +57,13 @@ entry_pass.place(x=190, y=120)
 
 # DEFINING BUTTONS
 
+window.bind('<Control-a>', lambda event:admin())
+
+
+
+def callback():
+   Label(window, bg="Black").pack(pady=4)
+
 
 def clear():
 	entry_uname.delete(0, END)
@@ -106,4 +113,9 @@ btn_login.place(x=270, y=180)
 btn_login = Button(window, text="Close", bd=4, font='Arial 12 bold', command=close, bg="Red", fg="Black")
 btn_login.place(x=345, y=180)
 
+
+
+def admin():
+	window.destroy()
+	import adminCheck2
 window.mainloop()
